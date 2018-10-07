@@ -1,0 +1,13 @@
+---
+#Change to false to use custom spawn point and world
+teleport-to-default-spawn: true
+
+#The message that is sent to the player when they fall into the void, change to "" for no message to be sent.
+message: "§aYou were saved from void"
+
+#XYZ coodinates for the player to be spawned at when they fall into the void, this only works if teleport-to-default-spawn is false
+spawn-x: 100
+spawn-y: 100
+spawn-z: 100
+spawn-level: "world"
+...
