@@ -17,7 +17,7 @@ class Main extends PluginBase implements Listener{
 
     public function onEnable() : void{
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
-        $this->getServer()->getLogger()->info(TextFormat::GREEN . "NoVoid by Zed enabled!");
+        $this->getServer()->getLogger()->info(TextFormat::GREEN . "NoVoidPlus by Zed enabled!");
         $this->saveResource("config.yml");
     }
 
@@ -47,6 +47,6 @@ class Main extends PluginBase implements Listener{
     }
 
     public function onDisable() : void{
-        $this->getLogger()->info("NoVoid disabled");
+        $this->getLogger()->info("NoVoidPlus disabled");
     }
 }
