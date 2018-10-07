@@ -1,4 +1,4 @@
-# NoVoid
+# NoVoidPlus
 Does what it says in the name, saves a player from the void.
 The below is all customisable in the config.yml
 # You can change:
