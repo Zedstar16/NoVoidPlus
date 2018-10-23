@@ -1,4 +1,6 @@
 # NoVoidPlus
+[![HitCount](http://hits.dwyl.io/Zedstar16/NoVoidPlus.svg)](http://hits.dwyl.io/Zedstar16/NoVoidPlus)
+
 Does what it says in the name, saves a player from the void.
 The below is all customisable in the config.yml
 # You can change:
