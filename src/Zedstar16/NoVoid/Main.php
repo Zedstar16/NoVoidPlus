@@ -59,7 +59,10 @@ class Main extends PluginBase implements Listener{
                 }else{
                   $player->teleport(new Vector3($config->get("spawn-x"), $config->get("spawn-y"), $config->get("spawn-z"), $config->get("spawn-level")));
                 }
-                $player->sendMessage($config->get("message"));
+                $msg = $config->get("message");
+                if(isset($msg)){
+                   $player->sendMessage($msg);
+                }
             }
         }
     }
