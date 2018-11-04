@@ -17,39 +17,50 @@ class Main extends PluginBase implements Listener{
 
     public function onEnable() : void{
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
-        $this->getServer()->getLogger()->info(TextFormat::GREEN . "NoVoidPlus by Zed enabled!");
         $this->saveResource("config.yml");
+        $config = $this->getConfig();
+
+        if(!is_bool($config->get("teleport-to-default-spawn"))){
+           $this->getServer()->getLogger()->warning("Config  default spawn value set incorrectly, it must be true or false");
+        }
+        if ($config->get("teleport-to-default-spawn") == false) {
+            if (!is_int($config->get("spawn-x") || $config->get("spawn-y") || $config->get("spawn-y"))) {
+                $this->getServer()->getLogger()->warning("Config spawn xyz values set incorrectly, they must be numbers!");
+            }
+        }
     }
 
-     public function onMove(PlayerMoveEvent $event): void{
+    public function onMove(PlayerMoveEvent $event): void{
         if($event->getTo()->getFloorY() < 0){
             $player = $event->getPlayer();
-
             $config = $this->getConfig();
-            $coords = $config->get("teleport-to-default-spawn") ? $this->getServer()->getDefaultLevel()->getSafeSpawn() : new Position((int)$config->get("spawn-x"), (int)$config->get("spawn-y"), (int)$config->get("spawn-z"), $this->getServer()->getLevelByName((string)$config->get("spawn-level"))); // (int) and (string) for PhpStorm reasons
-            
-            
+            $cplugin = $this->getServer()->getPluginManager()->getPlugin("CombatLogger");
 
             $level = $this->getServer()->getDefaultLevel();
             $spawn = $level->getSafeSpawn();
             $x = $spawn->getFloorX();
             $y = $spawn->getFloorY();
             $z = $spawn->getFloorZ();
-            
-            $cplugin = $this->getServer()->getPluginManager()->getPlugin("CombatLogger");
-		    if($cplugin !== null){
-                if(!$cplugin->isTagged($player){
-            if($this->getConfig()->get("teleport-to-default-spawn")){
-               $player->teleport(new Position($x, $y, $z, $level));
-            }else{
-                $player->teleport(new Vector3($this->getConfig()->get("spawn-x"), $this->getConfig()->get("spawn-y"), $this->getConfig()->get("spawn-z"), $this->getConfig()->get("spawn-level")));
+
+            if($cplugin !== null) {
+               if($config->get("disable-if-in-combat")){
+                  if (!$cplugin->isTagged($player)) {
+                      if ($config->get("teleport-to-default-spawn")) {
+                          $player->teleport(new Position($x, $y, $z, $level));
+                      }else{
+                          $player->teleport(new Vector3($config->get("spawn-x"), $config->get("spawn-y"), $config->get("spawn-z"), $config->get("spawn-level")));
+                      }
+                    $player->sendMessage($config->get("message"));
+                  }
+               }
+               }else{
+                if($config->get("teleport-to-default-spawn")){
+                  $player->teleport(new Position($x, $y, $z, $level));
+                }else{
+                  $player->teleport(new Vector3($config->get("spawn-x"), $config->get("spawn-y"), $config->get("spawn-z"), $config->get("spawn-level")));
+                }
+                $player->sendMessage($config->get("message"));
             }
-            $player->sendMessage($config->get("message"));
-
-        }}}
-    }
-
-    public function onDisable() : void{
-        $this->getLogger()->info("NoVoidPlus disabled");
+        }
     }
 }
