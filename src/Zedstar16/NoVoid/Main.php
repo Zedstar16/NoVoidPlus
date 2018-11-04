@@ -27,7 +27,7 @@ class Main extends PluginBase implements Listener{
 
             $config = $this->getConfig();
             $coords = $config->get("teleport-to-default-spawn") ? $this->getServer()->getDefaultLevel()->getSafeSpawn() : new Position((int)$config->get("spawn-x"), (int)$config->get("spawn-y"), (int)$config->get("spawn-z"), $this->getServer()->getLevelByName((string)$config->get("spawn-level"))); // (int) and (string) for PhpStorm reasons
-            $player->teleport($coords);
+            
             
 
             $level = $this->getServer()->getDefaultLevel();
@@ -36,6 +36,9 @@ class Main extends PluginBase implements Listener{
             $y = $spawn->getFloorY();
             $z = $spawn->getFloorZ();
             
+            $cplugin = $this->getServer()->getPluginManager()->getPlugin("CombatLogger");
+		    if($cplugin !== null){
+                if(!$cplugin->isTagged($player){
             if($this->getConfig()->get("teleport-to-default-spawn")){
                $player->teleport(new Position($x, $y, $z, $level));
             }else{
@@ -43,7 +46,7 @@ class Main extends PluginBase implements Listener{
             }
             $player->sendMessage($config->get("message"));
 
-        }
+        }}}
     }
 
     public function onDisable() : void{
