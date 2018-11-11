@@ -2,6 +2,9 @@
 #Change to false to use custom spawn point and world
 teleport-to-default-spawn: true
 
+#Choose if the plugin should save a player from the void if they are in combat
+disable-if-in-combat: false
+
 #The message that is sent to the player when they fall into the void, change to "" for no message to be sent.
 message: "§aYou were saved from void"
 
